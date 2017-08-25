@@ -282,6 +282,8 @@ function playPause(){
 }
 
 function updateText(){
+    stop();
+    i = 0;
     global_text = document.getElementById("inputText").value;
     global_text = global_text.split(" ");
     global_text.unshift("Get","ready!","Here","we","go..");
