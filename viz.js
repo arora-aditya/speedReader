@@ -8,9 +8,10 @@ strokeColor = "#ffc000",
 arcStartAngle = 0,
 arcInnerRadius = w / 2 - 20,
 arcOuterRadius = w / 2 - 10,
+startingAngle = 90,
 
 // variable for circle
-circleRadius = 10,
+circleRadius = 15,
 anglePoint = 0,
 
 // variable for animate arc path
@@ -19,11 +20,12 @@ maxStep = 24 * 60,
 anglePerStep = fullAngle / maxStep,
 currentStep = 0,
 animateDuration = 50
-endAngle = 0
+endAngle = 90
 
 // variables for speed reader
 maxWordsPerMinute = 1000
 startFlag = false
+global_text = " ";
 ;
 
 // create main svg
@@ -37,8 +39,17 @@ svg.append("svg:text")
 .attr("y", h/2)
 .attr("dy", ".35em")
 .attr("text-anchor", "middle")
-.text("Word")
+.text("")
 .attr("class","title")
+
+svg.append("svg:text")
+.attr("x", w/2 + 180)
+.attr("y", h/2 + 100)
+.attr("dy", ".35em")
+.attr("text-anchor", "middle")
+.text("dasf")
+.attr("class","wpm")
+.attr("id","wpm")
 
 // create arc group
 var arcGroup = svg.append("svg:g")
@@ -67,9 +78,6 @@ var circle = arcGroup.append("circle")
 .attr("fill", "#ffffff")
 .attr("stroke", strokeColor)
 .attr("stroke-width", circleRadius / 2 + 2)
-.text(wpm)
-// .attr("cx", 0)
-// .attr("cy", 5 + circleRadius - h/2)
 .attr("cursor", "move")
 .call(d3.drag().on('drag', function() {
                    a = findAngle(d3.event.x, d3.event.y);
@@ -78,14 +86,18 @@ var circle = arcGroup.append("circle")
                    }
                    currentStep = angleToStep(a);
                    setAngleStep(currentStep);
-                   circle.text(wpm);
+                   d3.select("#wpm")
+                     .text(function(){return wpm();});
                    // moveCircle(a);
                    }));
 
 d3.select(window).on("load", function() {
-                     currentStep = angleToStep(90);
+                     currentStep = angleToStep(startingAngle);
                      setAngleStep(currentStep);
-                     circle.text(wpm);
+                     circle.text(startingAngle/360 * 1000);
+                     updateText();
+                     d3.select("#wpm")
+                       .text(function(){return wpm();});
                      // moveCircle(a);
                      });
 
@@ -102,7 +114,8 @@ $('#clock').bind('mousewheel', function(e) {
                  
                  if (currentStep < 0) currentStep = 0;
                  if (currentStep > maxStep) currentStep = maxStep;
-                 
+                 d3.select("#wpm")
+                   .text(function(){return wpm();});
                  setAngleStep(currentStep);
                  });
 
@@ -115,7 +128,10 @@ $('.inc').click(function() {
                 }
                 
                 setAngleStep(currentStep);
-                restart();
+                stop();
+                if(startFlag !== false){
+                    setTimeout(restart,1000);
+                }
                 });
 
 $('.dec').click(function() {
@@ -127,8 +143,13 @@ $('.dec').click(function() {
                 }
                 
                 setAngleStep(currentStep);
-                restart();
+                stop();
+                if(startFlag !== false){
+                    setTimeout(restart,1000);
+                }
                 });
+
+//pause on spacebar press
 $(document).on("keypress", function (e) {
                    if(e.which === 32){
                        if(startFlag === false){
@@ -139,6 +160,19 @@ $(document).on("keypress", function (e) {
                        }
                    }
                });
+
+$(document).on("keydown", function (e) {
+               console.log(e.which);
+                   if(e.which === 37){
+                       stop();
+                       i -= 1
+                       reader();
+                        if(startFlag===true){
+                            setTimeout(start,5000);
+                        }
+                   }
+               });
+
 // set animate step
 function setAngleStep(step) {
     if (step > maxStep || step < 0)
@@ -202,9 +236,11 @@ function wpm(){
 }
 
 function reader(){
-    k = "Lol" + String(i)
-    svg.select("text").text(k)
+    svg.select("text").text(global_text[i])
     i = i + 1
+    if(i === global_text.length){
+        stop();
+    }
 }
 
 function stop(){
@@ -227,4 +263,19 @@ function restart(){
     start();
 }
 
+function replay(){
+    if(startFlag === false){
+        stop();
+        i = 0;
+        setTimeout(start(),5000);
+    }
+}
+
+function updateText(){
+    global_text = document.getElementById("inputText").value;
+    global_text = global_text.split(" ");
+    global_text.unshift("Get","ready!","Here","we","go..");
+    global_text.push("The End")
+    svg.select("text").text(global_text[0])
+}
 console.log('[done]');
