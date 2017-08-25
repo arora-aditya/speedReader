@@ -32,7 +32,8 @@ global_text = " ";
 var svg = d3.select("body").append("svg:svg")
 .attr("width", w)
 .attr("height", h)
-.attr("id", "clock");
+.attr("id", "clock")
+.on("click",playPause);
 
 svg.append("svg:text")
 .attr("x", w/2)
@@ -268,6 +269,15 @@ function replay(){
         stop();
         i = 0;
         setTimeout(start(),5000);
+    }
+}
+
+function playPause(){
+    if(startFlag === false){
+        start();
+    }
+    else{
+        stop();
     }
 }
 
