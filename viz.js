@@ -132,7 +132,9 @@ $('.inc').click(function() {
                 stop();
                 if(startFlag !== false){
                     setTimeout(restart,1000);
-                } 
+                }
+                d3.select("#wpm")
+                  .text(function(){return wpm();});
                 });
 
 $('.dec').click(function() {
@@ -148,6 +150,8 @@ $('.dec').click(function() {
                 if(startFlag !== false){
                     setTimeout(restart,1000);
                 }
+                d3.select("#wpm")
+                  .text(function(){return wpm();});
                 });
 
 //pause on spacebar press
