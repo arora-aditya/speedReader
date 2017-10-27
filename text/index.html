@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+    <title>Speed Reader</title>
+   <!--<script type="text/javascript" src="d3/d3.v2.js"></script>-->
+    <script src="/speedReader/d3.v4.js"></script>
+    <script src="/speedReader/jquery.js"></script>
+	<!-- Note: I made good use of the sample code provided by the D3JS community and extended it to fit my needs to create this simple dashboard -->
+    <style type="text/css">
+        .title{
+            font-size:100px
+        }
+    </style>
+  </head>
+  <body>
+        <script src="viz.js"></script>
+        <button class="inc button">+</button>
+        <button class="dec button">-</button>
+        <button class= "stop button" onclick= "stop()">STOP</button>
+        <button class= "start button" onclick= "start()">START</button>
+        <button class= "restart button" onclick= "replay()">REPLAY</button>
+        <br>
+        Enter Text: <input type="text" id="inputText" value = "Not long ago, everyone saw Hollywood and Silicon Valley as opposites. Hollywood was cool, artistic, and uniquely adept at entertaining viewers. Silicon Valley was the preserve of geeky engineers who could captivate the public with gadgetry, but had no clue how to hit the human notes that made for blockbusters. If you still buy those stereotypes, the news that Apple, Google, and Facebook are all going to make multi-billion-dollar investments in producing scripted video entertainment seems ludicrous—a folly launched by frustrated nerd-dom.  But a simple glance at the list of the world’s most valuable corporations puts the lie to that impression. The money has spoken: These three tech companies—along with a fourth, Amazon, which has already successfully cracked the code of producing original entertainment—are among the richest entities on Earth. Meanwhile, another Silicon Valley company, Netflix, has overcome similar mockeries to become one of the most successful entertainment producers on the planet. The rush into scripted video by tech giants is going to accelerate an evolution of entertainment that’s already underway. We’re already moving away from the idea that drama is a 60-minute exercise with four bathroom breaks. Internet-centric companies have already begun changing the rules with binge-watching, flexible running times, fewer commercials, and crowd-sourced content. The brainpower—and just plain power—of the most valued tech firms will change things even more." onclick = "this.select()"><br>
+            <input type="submit" value="Submit" onclick= "updateText()">
+
+    </body>
+    </html>
+    </div>
+  </body>
+</html>
